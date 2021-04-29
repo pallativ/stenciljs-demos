@@ -2,6 +2,40 @@ class Tooltip extends HTMLElement {
     constructor() {
         super();
         console.log("Tooltip Constructor");
+        this._tooltipContainer;
+        this._tooptipText = "Basic Text";
+        this.attachShadow({ mode: "open" });
+        var template = document.querySelector("#tooltip-template");
+        this.shadowRoot.appendChild(template.content.cloneNode(true));
+    }
+    connectedCallback() {
+        if (this.hasAttribute("text")) {
+            this._tooptipText = this.getAttribute("text");
+        }
+        const tooptipSpan = this.shadowRoot.querySelector("span");
+        tooptipSpan.addEventListener(
+            "mouseenter",
+            this._showTooltip.bind(this)
+        );
+        tooptipSpan.addEventListener(
+            "mouseleave",
+            this._hideTooltip.bind(this)
+        );
+        this.shadowRoot.appendChild(tooptipSpan);
+    }
+    disconnectedCallback() {}
+    attributeChangedCallback() {}
+
+    _showTooltip() {
+        this._tooltipContainer = document.createElement("div");
+        this._tooltipContainer.textContent = this._tooptipText;
+        this._tooltipContainer.style.backgroundColor = "black";
+        this._tooltipContainer.style.color = "white";
+        this._tooltipContainer.style.position = "absolute";
+        this.shadowRoot.appendChild(this._tooltipContainer);
+    }
+    _hideTooltip() {
+        this.shadowRoot.removeChild(this._tooltipContainer);
     }
 }
 customElements.define("ux-tooltip", Tooltip);
