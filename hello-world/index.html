@@ -6,14 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Web components</title>
         <script src="tooltip.js"></script>
+        <script src="confirm-link.js"></script>
     </head>
     <body>
         <template id="tooltip-template">
             <span>?</span>
+            <slot>Default</slot>
         </template>
         <p>
+            Welcome to
             <ux-tooltip text="WebComponent Tooltip">WebComponents</ux-tooltip>
-            Hello World
         </p>
+        <p><ux-tooltip text="WebComponent Tooltip"></ux-tooltip></p>
+
+        <a is="ux-confirm-link" href="http://google.com">Google</a>
+        </body>
     </body>
 </html>

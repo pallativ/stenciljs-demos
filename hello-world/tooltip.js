@@ -5,8 +5,17 @@ class Tooltip extends HTMLElement {
         this._tooltipContainer;
         this._tooptipText = "Basic Text";
         this.attachShadow({ mode: "open" });
-        var template = document.querySelector("#tooltip-template");
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.shadowRoot.innerHTML = `
+        <style>
+            div {
+                background-color: black;
+                color: white;
+                position: relative;
+                zIndex: 10;
+            }
+        </style>
+           <span> ?</span>
+            <slot>Default</slot>`;
     }
     connectedCallback() {
         if (this.hasAttribute("text")) {
@@ -29,9 +38,6 @@ class Tooltip extends HTMLElement {
     _showTooltip() {
         this._tooltipContainer = document.createElement("div");
         this._tooltipContainer.textContent = this._tooptipText;
-        this._tooltipContainer.style.backgroundColor = "black";
-        this._tooltipContainer.style.color = "white";
-        this._tooltipContainer.style.position = "absolute";
         this.shadowRoot.appendChild(this._tooltipContainer);
     }
     _hideTooltip() {
